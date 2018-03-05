@@ -32,29 +32,27 @@ parser$add_argument("-a", "--all-types",
                     help    = "get metadata of all types, not just RNA-seq")
 args <- parser$parse_args()
 
-# Data ------------------------------------------------------------------------
+# Load packages
+suppressPackageStartupMessages(library("GEOquery"))
 
-# Check and process input file type
+# Check and process input type (file or single string)
 if (grepl(".txt", args$input)) {
-    gse.list <- read.table(args$input, sep = "\t", header = FALSE, 
-                    stringsAsFactors = FALSE)
-    names(gse.list) <- "GSE"
+    gse_list <- read.table(args$input,
+                           sep              = "\t",
+                           header           = FALSE, 
+                           stringsAsFactors = FALSE)
+    names(gse_list) <- "GSE"
 } else {
-    gse.list <- data.frame(GSE = args$input)
+    gse_list <- data.frame(GSE = args$input)
 }
 
-# Remove previous output file (if applicable)
+# Remove previous output file (if existing)
 if (file.exists(args$output)) {
     file.remove(args$output)
 }
 
-# Analysis --------------------------------------------------------------------
-
-# Load packages
-suppressPackageStartupMessages(library("GEOquery"))
-
 # For every series in list
-for (series in gse.list[["GSE"]]) {
+for (series in gse_list[["GSE"]]) {
 
     # Download current series
     gse <- tryCatch({
@@ -63,7 +61,7 @@ for (series in gse.list[["GSE"]]) {
         return(NULL)
     })
 
-    # Go to next series if error during download of series
+    # Skip if an error occured during the download of the current series
     if (is.null(gse)) {
         message("Error during download of ", series, "; skipping.")
         write(paste(series, collapse = "\t"),
@@ -87,7 +85,7 @@ for (series in gse.list[["GSE"]]) {
             return(NULL)
         })
 
-        # Go to next sample if error during download of sample
+        # Skip if an error occured during the download of the current sample
         if (is.null(gsm)) {
             message("Error during download of ", sample, "; skipping.")
             write(paste(sample, collapse = "\t"),
@@ -100,14 +98,14 @@ for (series in gse.list[["GSE"]]) {
         # Get metadata
         info <- Meta(gsm)
 
-        # Check for RNA, cell lines, SRA, species and permitted platforms
+        # Check for RNA data, SRA samples, data type and human samples
         if (any(grepl("RNA", info$molecule_ch1, ignore.case = TRUE)) &
             any(grepl("SRA", info$relation)) &
             info$organism_ch1 == "Homo sapiens" | args$all_types) {
 
         # Collapse multi-entry metadata into single entries
-        for (m in 1:length(names(info))) {
-            info[m] <- paste(unlist(info[m]), collapse = "; ")
+        for (mm in 1:length(names(info))) {
+            info[mm] <- paste(unlist(info[mm]), collapse = "; ")
         }
 
         # Metadata entries to collect
