@@ -1,4 +1,4 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/env Rscript
 
 # Read GEO metadata
 geo_metadata <- read.table("geo_metadata.txt",
