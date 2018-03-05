@@ -22,7 +22,7 @@ INPUT=$1
 
 # Run GEO metadata R script
 echo "Querying GEO ..."
-geo_metadata.R -a $INPUT geo_metadata.txt
+geo_metadata.R $INPUT geo_metadata.txt -a
 
 # SRA metadata ----------------------------------------------------------------
 
