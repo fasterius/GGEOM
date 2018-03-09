@@ -3,8 +3,8 @@
 
 ## Overview
 
-**GGEOM** is a small collection of scripts to **g**et and parse **G**ene
-**E**xpression **O**mnibus [(GEO)][geo] **m**etadata, for use in downstream
+**GGEOM** is a small collection of scripts to **G**et and parse **G**ene
+**E**xpression **O**mnibus [(GEO)][geo] **M**etadata, for use in downstream
 pipelines for download and analysis of the raw data the metadata describes
 (such as my own [RNA-VC][rna-vc]). It collects both the metadata stored in the
 GEO (which contains things such as experimental designs, treatment protocols,
@@ -52,7 +52,7 @@ directory, containing all the metadata that GGEOM found.
 
 ## License
 
-GEOM is available with a MIT licence. It is free software: you may
+GGEOM is available with a MIT licence. It is free software: you may
 redistribute it and/or modify it under the terms of the MIT licence. For more
 information, please see the `LICENCE` file.
 
