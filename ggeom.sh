@@ -14,39 +14,13 @@ fi
 # Input
 INPUT=$1
 
-# GEO metadata ----------------------------------------------------------------
-
-# Run GEO metadata R script
+# Get the GEO metadata
 echo "Querying GEO ..."
-geo_metadata.R $INPUT geo_metadata.txt -a
+get_geo_metadata.R $INPUT -a
 
-# SRA metadata ----------------------------------------------------------------
-
-# Initialize file to get header (SRP ID is arbitrary)
+# Get the SRA metadata
 echo "Querying SRA ..."
-esearch -db sra -query SRP066982 \
-    | efetch -format runinfo \
-    | tr ',' '\t' \
-    | head -1 \
-    | sed 's/Run/SRR/g' \
-        > sra_metadata.txt
-
-# Get runinfo for each SRP ID in file
-SRPCOL=$(head -1 geo_metadata.txt | xargs -n 1 | nl | grep "SRP" | cut -f 1)
-for SRP in $(tail -n +2 geo_metadata.txt | cut -f $SRPCOL | sort | uniq); do
-
-    # Query SRA and add runinfo to file
-    echo "Fetching sequencing data for $SRP ..."
-    esearch -db sra -query "$SRP" < /dev/null \
-        | efetch -format runinfo \
-        | tr ',' '\t' \
-        | tail -n +2 \
-        | grep -vw ReleaseDate \
-        | grep -v -e '^[[:space:]]*$' \
-            >> sra_metadata.txt
-done
-
-# Merge metadata --------------------------------------------------------------
+get_sra_metadata.sh
 
 # Merge the two metadata files and order columns
 echo "Merging GEO and SRA metadata ..."
