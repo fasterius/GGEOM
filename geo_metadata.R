@@ -71,8 +71,11 @@ for (series in gse_list[["GSE"]]) {
         next
     }
 
-    # Get corresponding SRP ID
+    # Get corresponding SRP ID (skip series if there's no associated SRA study)
     srp <- grep("SRP", Meta(gse)$relation, value = TRUE)
+    if (length(srp) == 0) {
+        next
+    }
     srp <- strsplit(srp, "term=")[[1]][2]
 
     # For every sample in the series
