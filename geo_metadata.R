@@ -1,22 +1,5 @@
 #!/usr/bin/env Rscript
 
-# Install missing packages (if applicable)
-packages <- c("argparse", "GEOquery")
-if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-    message("Installing missing packages ...")
-    tryCatch(silent = TRUE,
-        install.packages(setdiff(packages, rownames(installed.packages())),
-                         repos = "http://cran.us.r-project.org"),
-        warning = function(bc) {
-            source("http://bioconductor.org/biocLite.R")
-            biocLite(setdiff(packages, rownames(installed.packages())))
-        },
-        error = function(bc) {
-            source("http://bioconductor.org/biocLite.R")
-            biocLite(setdiff(packages, rownames(installed.packages())))
-        })
-}
-
 # Command parser
 suppressPackageStartupMessages(library("argparse"))
 parser <- ArgumentParser(epilog = "Collect GEO/SRA metadata for series.")
