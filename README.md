@@ -18,7 +18,7 @@ to only include the specific samples of interest, or used as-is. Some level of
 curation is, however, recommended.
 
 I created GGEOM in order to more easily fetch the metadata I need for my own
-research, but I share it here in GitHub in case that somebody else has a use
+research, but I share it here on GitHub in case that somebody else has a use
 for it as well. There are no guarantees that it'll work for you, though, but
 I'll happily provide help if you're having issues with using it!
 
@@ -62,5 +62,6 @@ information, please see the `LICENCE` file.
 [argparse]: https://cran.r-project.org/web/packages/argparse/index.html
 [e-utils]: https://www.ncbi.nlm.nih.gov/books/NBK179288/
 [geo]: https://www.ncbi.nlm.nih.gov/geo/
+[geoquery]: https://bioconductor.org/packages/release/bioc/html/GEOquery.html
 [rna-vc]: https://github.com/fasterius/RNA-VC
 [sra]: https://www.ncbi.nlm.nih.gov/sra
