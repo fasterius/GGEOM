@@ -6,9 +6,6 @@ parser <- ArgumentParser(epilog = "Collect GEO/SRA metadata for series.")
 parser$add_argument("input",
                     type    = "character",
                     help    = "input file path or GSE ID")
-parser$add_argument("output",
-                    type    = "character",
-                    help    = "output file path")
 parser$add_argument("-a", "--all-types",
                     action  = "store_true",
                     dest    = "all_types",
@@ -30,8 +27,9 @@ if (grepl(".txt", args$input)) {
 }
 
 # Remove previous output file (if existing)
-if (file.exists(args$output)) {
-    file.remove(args$output)
+output <- "geo_metadata.txt"
+if (file.exists(output)) {
+    file.remove(output)
 }
 
 # For every series in list
@@ -150,13 +148,13 @@ for (series in gse_list[["GSE"]]) {
         metadata <- metadata[c("GSE", "GSM", "SRP", names(metadata)[3:33])]
 
         # Check if metadata file already exists, otherwise create it
-        if (!file.exists(args$output)) {
-            write(paste(names(metadata), collapse = "\t"), args$output)
+        if (!file.exists(output)) {
+            write(paste(names(metadata), collapse = "\t"), output)
         }
 
         # Append to metadata file
         write.table(metadata,
-                    args$output,
+                    output,
                     sep       = "\t",
                     row.names = FALSE,
                     col.names = FALSE,
