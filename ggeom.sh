@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
 # Wrapper script for downloading and parsing GEO/SRA metadata for a single GSE
 # series or a list of series (in a file), provided as first argument
