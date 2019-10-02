@@ -1,0 +1,15 @@
+channels:
+
+  - bioconda
+  - conda-forge
+  - defaults
+
+dependencies:
+
+  # R and R-packages
+  - bioconductor-geoquery
+  - r-base
+  - r-argparse 
+
+  # Entrez E-utilities
+  - entrez-direct
